@@ -8,6 +8,28 @@ aux=*a;
 *b=aux;
 }
 
+void bubblePar(int arr[],int tam){// = odd even sort
+
+    for(int i=0;i<tam;i++){
+
+        #pragma parallel for
+        for(int j=0;j<tam;j+2){
+            if(arr[j]<arr[j+1]){
+                troca(&arr[j],&arr[j+1]);
+            }
+
+        }
+
+        #pragma parallel for
+        for(int j=1;j<tam;j+2){
+            if(arr[j]<arr[j+1]){
+                troca(&arr[j],&arr[j+1]);
+            }
+
+        }
+    }
+}
+
 void bubble(int arr[], int tam){
     for (int i=0; i<=tam-1;i++){
         for (int j=0; j<=tam-i-1;j++){
@@ -39,7 +61,7 @@ void bucket(int arr[],int tam){
         matriz_buckets [balde][balde_idx[balde]]= arr[i];
         balde_idx[balde]++;
     
-}
+    }
     //ordena os numeros nos bardes
     for (int i=0;i<tam;i++){
         if (balde_idx[i]>1){//se o barde tiver mais de um elemento
