@@ -11,12 +11,12 @@ void coutingS(int arr[], int exp, int tam){
 
         int digito = (arr[i]/exp)%10;
 
-        count[arr[digito]]++;
+        count[digito]++;
     }
 
     //calcula os prefixos
 
-    for(int i=1;i<tam;i++){
+    for(int i=1;i<10;i++){
 
         count[i]+= count[i-1];
     }
@@ -38,14 +38,14 @@ void coutingS(int arr[], int exp, int tam){
 
 void radix(int arr[],int tam){
 
-    int max=0;
-    for(int i=0; i<tam-1;i++){
+    int max=arr[0];
+    for(int i=0; i<tam;i++){
         if (max<arr[i]){
             max=arr[i];
         }
     }
 
-    for (int exp=1;max/exp;exp*=10){
+    for (int exp=1;max/exp>0;exp*=10){
         coutingS(arr, exp,tam);
     }
 
