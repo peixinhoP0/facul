@@ -1,11 +1,17 @@
 public class Node<T> {
     
     // 2. O T maiúsculo define o tipo do dado
-    T data; 
+    private T data; 
     
     // 3. O próximo nó também é um "Node<T>" (com T maiúsculo)
-    Node<T> proximo; 
-    Node<T> antes;
+    private Node<T> proximo; 
+    private Node<T> antes;
+
+    public Node (T data){
+        this.data=data;
+        this.antes=null;
+        this.proximo=null;
+    }
 
     // 4. No get, o retorno é simplesmente "T"
     public T getData() {
