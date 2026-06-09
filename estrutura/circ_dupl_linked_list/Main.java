@@ -12,16 +12,21 @@ public class Main {
 
         carros.insertHead(new Carro(3,"Uno",2008,"Fiat","Vermelho"));
 
+        carros.insertPos(new Carro(4,"Rav 4", 2014,"Toyota","Azul"), 2);
+
         // Mostra todos os carros
-        System.out.println("Lista de carros:");
+        System.out.println("Lista de carros:\n");
         carros.show();
+
+        System.out.println("lista invertida: \n");
+        carros.showTraz();
 
         System.out.println();
 
         // Remove o primeiro carro
         carros.removeHead();
 
-        System.out.println("Após remover o primeiro:");
+        System.out.println("Após remover o primeiro:\n");
         carros.show();
 
         System.out.println();
@@ -36,5 +41,9 @@ public class Main {
 
         // Mostra o tamanho da lista
         System.out.println("Quantidade de carros: "+ carros.getSize());
+
+        
+        System.out.println("apos busca por id \n"+carros.buscarPorId(1));
     }
+    
 }

@@ -1,4 +1,4 @@
-public class CircularLinkedList<T> {
+public class CircularLinkedList<T extends Comparable<T>> {
 
     // Primeiro nó da lista
     private Node<T> head;
@@ -224,5 +224,24 @@ public class CircularLinkedList<T> {
 
         }while(count!=size);
 
+    }
+
+    public int buscarPorId(int id){
+        if (isEmpty()){return -1;}
+        Node <T> atual=head;
+        
+        
+        for(int i=0;i<size;i++){
+            Carro carroAtual = (Carro) atual.getData();
+            if (carroAtual.getId()==id){
+                System.out.println(carroAtual);
+                return i;
+            }
+            atual=atual.getProximo();
+        }
+        System.out.println("Id não encontrado");
+        return -1;
+
+        
     }
 }

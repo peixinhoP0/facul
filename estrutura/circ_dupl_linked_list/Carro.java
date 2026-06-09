@@ -1,4 +1,4 @@
-public class Carro {
+public class Carro implements Comparable<Carro> {
 
     private int id;
     private String modelo;
@@ -63,5 +63,10 @@ public class Carro {
            ", Ano: " + ano +
            ", Cor: " + cor;
 }
+    @Override
+    public int compareTo(Carro outroCarro){
+        //-1= menor q outro 0=iguais e 1= maior que outro
+        return Integer.compare(this.id, outroCarro.getId());
+    }
     
 }
