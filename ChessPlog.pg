@@ -1,0 +1,19 @@
+chess(Lista) :-
+    processar(Lista).
+
+processar([]).
+processar([X|Y]) :-
+    (   string(X) ->
+        string_chars(X, ListaCarac),
+        format('processando linha de texto:~n', []),
+        percorrer_caracteres(ListaCarac)
+    ;   number(X) ->
+        format('Espaço vazio / numero ~w~n', [X])
+    ;   true
+    ),
+    processar(Y).
+
+percorrer_caracteres([]).
+percorrer_caracteres([H|T]) :-
+    format('  Caractere: ~w~n', [H]),
+    percorrer_caracteres(T).
