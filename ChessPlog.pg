@@ -1,6 +1,6 @@
 %plano: apos receber a Lista com os comandos ele vai 
 % pegar cada linha do tabuleiro
-% se for uma string ele vai pegar cada caracter e adicionar em uma lista "Tabuleiro de tamanho 64"
+% se for uma string ele vai pegar cada caracter separadamente e adicionar em uma lista "Tabuleiro de tamanho 64"
 %se for um numero ele vai adicionar a letra X na quantidade dos numeros
 
 
