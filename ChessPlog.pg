@@ -1,19 +1,27 @@
-chess(Lista) :-
+chess(Lista):-
     processar(Lista).
 
 processar([]).
 processar([X|Y]) :-
     (   string(X) ->
         string_chars(X, ListaCarac),
-        format('processando linha de texto:~n', []),
-        percorrer_caracteres(ListaCarac)
+        format('processando linha de texto:~n', [X]),
+        percorrer_caracteres(ListaCarac),
     ;   number(X) ->
         format('Espaço vazio / numero ~w~n', [X])
+
     ;   true
     ),
     processar(Y).
 
-percorrer_caracteres([]).
-percorrer_caracteres([H|T]) :-
+percorrer_caracteres([],TabuFinal,TabuFinal).
+percorrer_caracteres([H|T],TabuAtual, TabuFinal) :-
     format('  Caractere: ~w~n', [H]),
-    percorrer_caracteres(T).
+    
+    (   atom(H) %se for uma string de um char.
+    %se sim, junta TabuAtual e H em tabu próximo.
+    ->  append(TabuAtual,[H],TabuProximo)
+    % else if, mantém o tabuleiro como está. 
+    ;   TabuProximo=tabuAtual
+	),
+    percorrer_caracteres(T,TabuProximo,TabuFinal).
