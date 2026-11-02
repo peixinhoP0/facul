@@ -1,3 +1,11 @@
+%plano: apos receber a Lista com os comandos ele vai 
+% pegar cada linha do tabuleiro
+% se for uma string ele vai pegar cada caracter e adicionar em uma lista "Tabuleiro de tamanho 64"
+%se for um numero ele vai adicionar a letra X na quantidade dos numeros
+
+
+
+
 chess(Lista):-
     processar(Lista).
 
@@ -8,6 +16,7 @@ processar([X|Y]) :-
         format('processando linha de texto:~n', [X]),
         percorrer_caracteres(ListaCarac),
     ;   number(X) ->
+    	addNum(X,TabuAtual,TabuFinal),
         format('Espaço vazio / numero ~w~n', [X])
 
     ;   true
@@ -18,10 +27,12 @@ percorrer_caracteres([],TabuFinal,TabuFinal).
 percorrer_caracteres([H|T],TabuAtual, TabuFinal) :-
     format('  Caractere: ~w~n', [H]),
     
-    (   atom(H) %se for uma string de um char.
-    %se sim, junta TabuAtual e H em tabu próximo.
-    ->  append(TabuAtual,[H],TabuProximo)
-    % else if, mantém o tabuleiro como está. 
-    ;   TabuProximo=tabuAtual
+    (   atom(H) %se for uma string de um char.    
+    ->  append(TabuAtual,[H],TabuProximo) %se sim, junta TabuAtual e H em tabu próximo.
+    ;   TabuProximo=TabuAtual % else if, mantém o tabuleiro como está. 
 	),
     percorrer_caracteres(T,TabuProximo,TabuFinal).
+    
+
+addNum(X,TabuAtual,TabuFinal):-
+    
