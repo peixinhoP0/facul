@@ -8,7 +8,12 @@
 
 chess(Lista):-
     length(Tabuleiro , 64),
-    processar(Lista,[],Tabuleiro).
+    processar(Lista,[],Tabuleiro),
+    Tabuleiro=TabuleiroFinal,
+    %nl é a mesma coisa que \n
+    nl,write('--- Tabuleiro com 64 casas---'), nl,
+    % O portray_clause imprime a lista completa sem cortar com '...'
+    portray_clause(TabuleiroFinal).
 
 
 processar([],Tabu,Tabu).
@@ -23,16 +28,6 @@ processar([X|Y],TabuAtual, TabuFinal) :-
     ;   TabuProximo=TabuAtual
     ),
     processar(Y,TabuProximo,TabuFinal).
-
-percorrer_caracteres([],TabuFinal,TabuFinal).
-percorrer_caracteres([H|T],TabuAtual, TabuFinal) :-
-    format('  Caractere: ~w~n', [H]),
-    
-    (   atom(H) %se for uma string de um char.    
-    ->  append(TabuAtual,[H],TabuProximo) %se sim, junta TabuAtual e H em tabu próximo.
-    ;   TabuProximo=TabuAtual % else if, mantém o tabuleiro como está. 
-	),
-    percorrer_caracteres(T,TabuProximo,TabuFinal).
     
 
 addNum(N,TabuAtual,TabuFinal):-
