@@ -1,37 +1,46 @@
-%plano: apos receber a Lista com os comandos (notação forsyth) ele vai 
-% pegar cada linha do tabuleiro
-% se for uma string ele vai pegar cada caracter separadamente e adicionar em uma lista "Tabuleiro de tamanho 64"
-%se for um numero ele vai adicionar a letra X na quantidade dos numeros
+chess(Lista) :-
+    processar(Lista, [], Tabuleiro),
+    length(Tabuleiro, Tam),
+    nl, format('--- Tabuleiro com ~w casas ---~n', [Tam]),
+    imprimir_tabuleiro(Tabuleiro).
 
-
-
-
-chess(Lista):-
-    length(Tabuleiro , 64),
-    processar(Lista,[],Tabuleiro),
-    %nl é a mesma coisa que \n
-    nl,write('--- Tabuleiro com 64 casas---'), nl,
-    % O portray_clause imprime a lista completa sem cortar com '...'
-    portray_clause(Tabuleiro).
-
-
-processar([],Tabu,Tabu).
-processar([X|Y],TabuAtual, TabuFinal) :-
-    (   string(X) 
-    ->  string_chars(X, Chars),
-        format('processando linha de texto:~w~n', [X]),
-        append(TabuAtual, Chars, TabuProximo)
+% lista de comando 
+processar([], Tabu, Tabu).
+processar([X|Y], TabuAtual, TabuFinal) :-
+    (   string(X)
+    ->  format('processando linha de texto: ~w~n', [X]),
+        string_chars(X, Chars),
+        percorrer_caracteres(Chars, TabuAtual, TabuProximo)
     ;   integer(X)
-    ->  format('Espaços vazios: ~w~n',[X]),    
-    	addNum(X,TabuAtual,TabuProximo)
-    ;   TabuProximo=TabuAtual
+    ->  format('Espaços vazios: ~w~n', [X]),
+        addNum(X, TabuAtual, TabuProximo)
+    ;   TabuProximo = TabuAtual
     ),
-    processar(Y,TabuProximo,TabuFinal).
-    
+    processar(Y, TabuProximo, TabuFinal).
 
-addNum(N,TabuAtual,TabuFinal):-
-    length(Y,N),
-    maplist(=('X'),Y),
-    append(TabuAtual, Y, TabuFinal).
-    
-    
+% caracteres de uma string 
+percorrer_caracteres([], Tabu, Tabu).
+percorrer_caracteres([H|T], TabuAtual, TabuFinal) :-
+    (   char_type(H, digit(N))          % '2' -> N = 2
+    ->  addNum(N, TabuAtual, TabuProximo)
+    ;   H == '/'                        % separador do FEN
+    ->  TabuProximo = TabuAtual
+    ;   append(TabuAtual, [H], TabuProximo)   % peça
+    ),
+    percorrer_caracteres(T, TabuProximo, TabuFinal).
+
+%  Adiciona N vezes 'X' 
+addNum(N, TabuAtual, TabuFinal) :-
+    length(Xs, N),
+    maplist(=('X'), Xs),
+    append(TabuAtual, Xs, TabuFinal).
+
+% Impressão 8x8 
+imprimir_tabuleiro([]).
+imprimir_tabuleiro(Lista) :-
+    Lista \= [],
+    length(Linha, 8),
+    append(Linha, Resto, Lista),
+    atomic_list_concat(Linha, ' ', Texto),
+    writeln(Texto),
+    imprimir_tabuleiro(Resto).
