@@ -7,19 +7,19 @@
 
 
 chess(Lista):-
-    length(Tabulero , 64),
+    length(Tabuleiro , 64),
     processar(Lista,[],Tabuleiro).
 
 
-processar([]).
+processar([],Tabu,Tabu).
 processar([X|Y],TabuAtual, TabuFinal) :-
     (   string(X) 
-    ->  string_chars(X, ListaCarac),
-        format('processando linha de texto:~n', [X]),
+    ->  string_chars(X, Chars),
+        format('processando linha de texto:~w~n', [X]),
         append(TabuAtual, Chars, TabuProximo)
     ;   integer(X)
     ->  format('Espaços vazios: ~w~n',[X]),    
-    	addNum(X,TabuAtual,TabuFinal),
+    	addNum(X,TabuAtual,TabuFinal)
     ;   TabuProximo=TabuAtual
     ),
     processar(Y,TabuProximo,TabuFinal).
@@ -35,9 +35,9 @@ percorrer_caracteres([H|T],TabuAtual, TabuFinal) :-
     percorrer_caracteres(T,TabuProximo,TabuFinal).
     
 
-addNum([X],TabuAtual,TabuFinal):-
+addNum(N,TabuAtual,TabuFinal):-
     length(Y,N),
-    maplist(=('X'),N),
+    maplist(=("X"),N),
     append(TabuAtual, Y, TabuFinal).
     
     
