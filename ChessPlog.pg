@@ -1,4 +1,4 @@
-%plano: apos receber a Lista com os comandos ele vai 
+%plano: apos receber a Lista com os comandos (notação forsyth) ele vai 
 % pegar cada linha do tabuleiro
 % se for uma string ele vai pegar cada caracter separadamente e adicionar em uma lista "Tabuleiro de tamanho 64"
 %se for um numero ele vai adicionar a letra X na quantidade dos numeros
@@ -7,21 +7,22 @@
 
 
 chess(Lista):-
-    processar(Lista).
+    length(Tabulero , 64),
+    processar(Lista,[],Tabuleiro).
+
 
 processar([]).
-processar([X|Y]) :-
-    (   string(X) ->
-        string_chars(X, ListaCarac),
+processar([X|Y],TabuAtual, TabuFinal) :-
+    (   string(X) 
+    ->  string_chars(X, ListaCarac),
         format('processando linha de texto:~n', [X]),
-        percorrer_caracteres(ListaCarac),
-    ;   number(X) ->
+        append(TabuAtual, Chars, TabuProximo)
+    ;   integer(X)
+    ->  format('Espaços vazios: ~w~n',[X]),    
     	addNum(X,TabuAtual,TabuFinal),
-        format('Espaço vazio / numero ~w~n', [X])
-
-    ;   true
+    ;   TabuProximo=TabuAtual
     ),
-    processar(Y).
+    processar(Y,TabuProximo,TabuFinal).
 
 percorrer_caracteres([],TabuFinal,TabuFinal).
 percorrer_caracteres([H|T],TabuAtual, TabuFinal) :-
@@ -34,5 +35,9 @@ percorrer_caracteres([H|T],TabuAtual, TabuFinal) :-
     percorrer_caracteres(T,TabuProximo,TabuFinal).
     
 
-addNum(X,TabuAtual,TabuFinal):-
+addNum([X],TabuAtual,TabuFinal):-
+    length(Y,N),
+    maplist(=('X'),N),
+    append(TabuAtual, Y, TabuFinal).
+    
     
