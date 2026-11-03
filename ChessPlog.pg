@@ -9,11 +9,10 @@
 chess(Lista):-
     length(Tabuleiro , 64),
     processar(Lista,[],Tabuleiro),
-    Tabuleiro=TabuleiroFinal,
     %nl é a mesma coisa que \n
     nl,write('--- Tabuleiro com 64 casas---'), nl,
     % O portray_clause imprime a lista completa sem cortar com '...'
-    portray_clause(TabuleiroFinal).
+    portray_clause(Tabuleiro).
 
 
 processar([],Tabu,Tabu).
@@ -24,7 +23,7 @@ processar([X|Y],TabuAtual, TabuFinal) :-
         append(TabuAtual, Chars, TabuProximo)
     ;   integer(X)
     ->  format('Espaços vazios: ~w~n',[X]),    
-    	addNum(X,TabuAtual,TabuFinal)
+    	addNum(X,TabuAtual,TabuProximo)
     ;   TabuProximo=TabuAtual
     ),
     processar(Y,TabuProximo,TabuFinal).
@@ -32,7 +31,7 @@ processar([X|Y],TabuAtual, TabuFinal) :-
 
 addNum(N,TabuAtual,TabuFinal):-
     length(Y,N),
-    maplist(=("X"),N),
+    maplist(=('X'),Y),
     append(TabuAtual, Y, TabuFinal).
     
     
